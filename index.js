@@ -1,20 +1,21 @@
-const express=require('express')
-const app=express()
-const path=require('path')
-const db=require('./db')
+const express = require('express')
+const app = express();
+const db = require('./db');
+require('dotenv').config();
 
-require('dotenv').config()
-const  bodyParser=require('body-parser')
+const bodyParser = require('body-parser'); 
+app.use(bodyParser.json()); // req.body
+const PORT = process.env.PORT || 3000;
+
+// Import the router files
+const userRoutes = require('./routes/userRoutes');
+const candidateRoutes = require('./routes/candidateRoutes');
+
+// Use the routers
+app.use('/user', userRoutes);
+app.use('/candidate', candidateRoutes);
 
 
-app.use(bodyParser.json())
-const PORT=process.env.PORT || 3005
-
-const userRoutes=require('./routes/user')
-const candidateRoutes=require('./routes/candidate')
-
-app.use('/user',userRoutes)
-app.use('/candidate',candidateRoutes)
-app.listen(PORT,()=>{
-    console.log(`listen on port 3009`)
+app.listen(PORT, ()=>{
+    console.log('listening on port 3000');
 })
